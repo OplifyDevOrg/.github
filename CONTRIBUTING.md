@@ -22,13 +22,17 @@ given, because a rule you understand is one you can tell when to break.
 Skip the issue only for something genuinely trivial: a typo, a comment, a
 formatting fix. When unsure, open one — a small issue costs nothing.
 
-Add the issue to the [Oplify Delivery](https://github.com/orgs/OplifyDevOrg/projects/1)
-board and set **Sprint** and **Priority**. Leave **Status** alone; it follows the
-issue and its PR on its own.
+Opening an issue puts it on the [Oplify Delivery](https://github.com/orgs/OplifyDevOrg/projects/1)
+board in **Backlog**, and closing it moves it to **Done**. That is the
+`project-sync` workflow in each repo, not a GitHub built-in — the built-in
+workflows are off and cannot be enabled through the API, so the behaviour lives
+in version control where it can be reviewed.
 
-```bash
-gh project item-add 1 --owner OplifyDevOrg --url <issue-url>
-```
+**Set Sprint and Priority yourself.** They are planning decisions and nothing
+guesses them for you; an issue with neither is invisible to the sprint views.
+Status is the only field that moves on its own — move it to **In progress** or
+**In review** by hand while you work, and the workflow will still set it to Done
+when the issue closes.
 
 Set **Blocked on** to a person when the work needs access nobody else has — a
 cloud dashboard, DNS, a key. That is the difference between work that looks
