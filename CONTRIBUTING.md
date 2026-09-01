@@ -104,6 +104,24 @@ second PR — reviewers cannot review two things at once, so they review neither
 
 ### Reviewing
 
+**Every change gets an independent review before it merges, and the author does
+not review their own work.** Self-review checks whether the code does what you
+meant. A reviewer checks whether what you meant was right — which is the part
+that goes wrong.
+
+Size the review to what the change touches:
+
+| Depth | When |
+| --- | --- |
+| **Deep** | Money, auth and sessions, tenancy, signature verification, database migrations, destructive data operations, concurrency and queues, or anything reaching production infrastructure |
+| **Quick** | Everything else — a single-module fix with tests, UI, docs, CI tweaks, dependency bumps |
+
+The split is about how a mistake fails. A wrong colour is visible immediately; a
+missing `organizationId` filter leaks another tenant's data silently, and an
+uncaptured payment reverses itself weeks later. Deep is for the quiet ones.
+
+Findings are addressed, or rejected in writing with the reasoning. Not "noted".
+
 Look for, roughly in order:
 
 1. **Correctness** — does it do what it claims, including the edge the issue described?
@@ -116,6 +134,11 @@ Look for, roughly in order:
    works, ask.
 
 Approving is a statement that you would be comfortable being paged for it.
+
+Working with an agent does not remove this step — it is where it matters most,
+because an agent will happily produce something plausible and internally
+consistent that is wrong. Have a **separate** agent review it; the one that wrote
+the code is the worst judge of it.
 
 ---
 
