@@ -129,9 +129,38 @@ The API's test suite is deliberately run via `make test`, which provisions a
 scratch database. Running `npm test` directly makes the integration tests
 **skip themselves** and report green having tested nothing.
 
-The frontend's lint gate is a **ratchet, not a clean gate**: the tree carries a
-backlog of errors, so it fails only if your PR _adds_ to it. Lower the baseline
-when you burn some down.
+The frontend's lint gate keeps a ratchet shape but the backlog is cleared, so
+its baseline is **0** and it behaves as a clean gate: any error you introduce
+fails the build. It still reports the count either way, which makes a
+regression legible rather than merely red.
+
+---
+
+## Protecting main
+
+`main` is **not** protected, and cannot be. GitHub Free does not offer branch
+protection on private repositories — both the protection and ruleset endpoints
+return `403 Upgrade to GitHub Pro or make this repository public`.
+
+So the rule below is enforced by a detective control, not a preventive one:
+
+> **Never push to `main`.** Branch, open a PR, let CI run, merge.
+
+A `Guard main` workflow runs on every push to `main`. If the commit did not
+arrive through a pull request, it **files an issue naming you and the commit,
+and fails**. It cannot stop the push — it only guarantees the bypass is
+noticed.
+
+If you are the one who tripped it: revert, and bring the change back as a PR.
+
+```bash
+git revert <sha>
+```
+
+This is a stopgap. It goes away when the org moves to a paid plan and real
+protection is switched on — see
+[oplify-messaging-api#9](https://github.com/OplifyDevOrg/oplify-messaging-api/issues/9),
+which records the recommended settings and the cost.
 
 ---
 
